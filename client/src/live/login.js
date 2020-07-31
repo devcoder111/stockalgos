@@ -7,7 +7,9 @@ import './login.scss'
 import logo from '../assets/logo.png';
 import AuthBackground from '../components/AuthBackground/AuthBackground';
 import { NavLink, Link } from 'react-router-dom';
+// import { useHistory } from "react-router-dom"
 
+// let history = useHistory();
 class Login_Container extends React.Component {
   constructor(props) {
     super(props);
@@ -37,6 +39,7 @@ class Login extends React.Component {
       .then((response) => {
         console.log(response)
         this.props.persistUser(response.data.result)
+        this.props.history.push('/marketplace')
       })
   }
 

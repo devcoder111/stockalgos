@@ -3,11 +3,11 @@ import axios from 'axios'
 
 
 export const AppContext = React.createContext({
-  user: {
-    _id: null,
-    loading: true
-  },
-  isLoggedIn: null,
+  // user: {
+  //   _id: null,
+  //   loading: true
+  // },
+  // isLoggedIn: null,
   handleLogOut: () => {
   }
 })
@@ -36,6 +36,7 @@ class App extends PureComponent {
     componentDidMount(){
       axios.get('/fetch_user_details').then((response)=>{
         let data = response.data
+        let isLoggedIn = false
         if (data.status === 'success'){
           this.setState({
             user: {
@@ -47,11 +48,14 @@ class App extends PureComponent {
             },
               isLoggedIn: true,
           })
+          isLoggedIn = true
         } else {
           this.setState({
             isLoggedIn: false,
           })
+          isLoggedIn = false
         }
+        this.props.setLogin(isLoggedIn)
 
       })
     }

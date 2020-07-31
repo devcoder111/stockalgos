@@ -57,6 +57,11 @@ a{
     margin: 1em 0;
     outline: none;
     width: 100%;
+    &.no-brdr {
+        border:0px; 
+        margin:0px;
+        padding: 0 0rem;
+    }
     &::placeholder{
         color: $grey;
         font-weight: 300;
