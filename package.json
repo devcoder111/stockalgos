@@ -1,0 +1,69 @@
+{
+  "name": "genesis_repack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "genesis.js",
+  "scripts": {
+    "preinstall": "npm install pm2 -g",
+    "start": "pm2 start genesis.js --attach",
+    "start-dev": "nodemon genesis.js",
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "stop": "pm2 stop genesis.js",
+    "indent": "npm install -g esformatter && esformatter -i client/src/**/*.js*"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sentry/node": "^5.10.2",
+    "@tensorflow/tfjs-node": "^1.7.4",
+    "algotrader": "^2.5.4",
+    "async": "^2.6.3",
+    "aws-sdk": "^2.592.0",
+    "bcryptjs": "^2.4.3",
+    "black-scholes": "^1.1.0",
+    "chalk": "^4.0.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^2.0.3",
+    "cookie-parser": "^1.4.4",
+    "csv-parser": "^2.3.2",
+    "d3": "^5.16.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "fs": "0.0.1-security",
+    "helmet": "^3.21.2",
+    "ib": "^0.2.7",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "mongoose": "^5.8.1",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.2",
+    "newrelic": "^5.13.1",
+    "node-cron": "^2.0.3",
+    "node-geocoder": "^3.25.0",
+    "node-pandas": "^1.0.5",
+    "nodemailer": "^4.7.0",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7",
+    "python-shell": "^2.0.1",
+    "raven": "^2.5.0",
+    "request": "^2.88.0",
+    "serve-favicon": "^2.4.5",
+    "xlsx-chart": "^0.3.8",
+    "yahoo-finance": "^0.3.6",
+    "zebras": "0.0.18"
+  },
+  "nodemonConfig": {
+    "ext": "js, json, env",
+    "ignore": [
+      "node_modules/*",
+      "client/*",
+      "*.log"
+    ]
+  },
+  "devDependencies": {
+    "esformatter-jsx": "^8.0.1"
+  }
+}
