@@ -53,9 +53,7 @@ class Router extends Component {
             <LoginRoute exact {...this.state} path='/' component={Login} />
             <LoginRoute exact {...this.state} path='/login' component={Login} />
             <Route path='/correlation' component={Correlation} />
-
             <Route path='/rsi' component={Rsi} />
-            {/* <Route path='/login' component={Login} /> */}
             <Route path='/signup' component={SignUpPage} />
             <Route path='/register' component={Register} />
             <Route path='/forgot-password' component={ForgotPasswordPage} />
