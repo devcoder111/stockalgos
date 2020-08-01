@@ -5,6 +5,7 @@ const MailFunction = require("./../../common/common");
 const Message = require("./../../common/constant");
 
 exports.create_user = function (req, res) {
+  console.log('yes')
   User.findOne({ email: req.body.email })
     .lean()
     .exec((err, user) => {

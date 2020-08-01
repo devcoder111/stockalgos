@@ -96,7 +96,8 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.json({ status: Message.ERROR, message: errors });
-    } else user_registration.create_user;
+    } else 
+    return user_registration.create_user(req,res);
   }
 );
 
