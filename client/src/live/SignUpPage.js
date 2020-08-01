@@ -27,8 +27,7 @@ class SignUpPage extends Component {
         })
         .then((response) => {
           console.log(response);
-          // this.props.persistUser(response.data.data);
-          this.props.history.push("/login");
+          // this.props.history.push("/login");
         });
     } else {
       this.checkError(e);

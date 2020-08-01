@@ -39,7 +39,7 @@ class Login extends React.Component {
       .then((response) => {
         console.log(response)
         this.props.persistUser(response.data.result)
-        this.props.history.push('/marketplace')
+        // this.props.history.push('/marketplace')
       })
   }
 
