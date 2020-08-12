@@ -24,6 +24,7 @@ exports.config = {
    * attributes include/exclude lists.
    */
   allow_all_headers: true,
+  license_key: [],
   attributes: {
     /**
      * Prefix of attributes to exclude from all destinations. Allows * as wildcard

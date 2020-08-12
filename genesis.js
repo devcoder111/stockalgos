@@ -70,9 +70,25 @@ require('./config/passport')(passport);
 const router = express.Router();
 const routes = require('./routes/router');
 
+// Session handling function
+// app.use(function (req, res, next) {
+//   if(req.url === '/create_user' || req.url === '/sign_in') {
+//     next()
+//   } else {
+//     if (req.isAuthenticated()) {
+//       next()
+//     } else {
+//       res.json({
+//         status: 'redirect',
+//         message: 'Please Sign In',
+//         redirect_to: '/sign_in'
+//       })
+//     }
+//   }
+// })
+
 // Router
 app.use('/', routes);
-
 // The sentry error handler must be before any other error middleware
 app.use(Sentry.Handlers.errorHandler());
 

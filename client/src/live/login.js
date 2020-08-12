@@ -1,13 +1,14 @@
 import React from 'react';
 import axios from 'axios';
-import PropTypes from 'prop-types';
 import URL from 'url-parse';
 import { AppContext } from '../App';
 import './login.scss'
 import logo from '../assets/logo.png';
 import AuthBackground from '../components/AuthBackground/AuthBackground';
 import { NavLink, Link } from 'react-router-dom';
+// import { useHistory } from "react-router-dom"
 
+// let history = useHistory();
 class Login_Container extends React.Component {
   constructor(props) {
     super(props);
@@ -35,8 +36,10 @@ class Login extends React.Component {
     const { username, password } = e.target;
     axios.post('/sign_in', { username: username.value, password: password.value })
       .then((response) => {
-        console.log(response)
+        console.log(this.props)
         this.props.persistUser(response.data.result)
+        this.props.setLogin(true)
+        this.props.history.push('/marketplace')
       })
   }
 
@@ -63,8 +66,5 @@ class Login extends React.Component {
   }
 }
 
-Login_Container.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default Login_Container;

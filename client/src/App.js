@@ -29,6 +29,9 @@ class App extends PureComponent {
               isLoggedIn: true,
               password: ''
         })
+      },
+      logOutUser:(value)=>{
+        this.setState({ isLoggedIn: value})
       }
       }
     }
@@ -36,6 +39,7 @@ class App extends PureComponent {
     componentDidMount(){
       axios.get('/fetch_user_details').then((response)=>{
         let data = response.data
+        let isLoggedIn = false
         if (data.status === 'success'){
           this.setState({
             user: {
@@ -47,19 +51,17 @@ class App extends PureComponent {
             },
               isLoggedIn: true,
           })
+          isLoggedIn = true
         } else {
           this.setState({
             isLoggedIn: false,
           })
+          isLoggedIn = false
         }
+        this.props.setLogin(isLoggedIn, this.state)
 
       })
     }
-
-
-
-
-
 
   render() {
     return <AppContext.Provider value={this.state}>
