@@ -32,6 +32,7 @@ const authentication = require("../controllers/authentication/auth");
 const trading_authentication = require("../controllers/authentication/trading_auth");
 
 const neural_net = require("../controllers/algotrader/neural_net");
+const algo = require("../controllers/algo/algo");
 
 router.post("/get_correlation", correlation.stock_req);
 router.get("/create_file", file_management.test_create_file);
@@ -123,5 +124,13 @@ router.get("/log_out", authentication.log_out);
 router.get("/check_security", function (req, res) {
   console.log(req.url);
 });
+
+/***. Algo Section.  ***/
+
+router.post("/algos/save", algo.createAlgo);
+router.get("/algos/:algoId", algo.getAlgoDetails);
+router.post("/algos/review/save", algo.saveAlgoReview);
+
+/***  End  ***/
 
 module.exports = router;
