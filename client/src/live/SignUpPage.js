@@ -22,6 +22,8 @@ class SignUpPage extends Component {
       axios
         .post("/create_user", {
           name: `${firstName.value} ${lastName.value}`,
+          firstName: firstName.value,
+          lastName: lastName.value,
           password: password.value,
           email: email.value,
         })

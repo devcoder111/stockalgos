@@ -16,8 +16,8 @@ const S3 = require("../config/aws");
 const URL = require("url");
 const cron = require("node-cron");
 const { body, validationResult } = require("express-validator");
-const Message = require('../common/constant');
-//new
+const Message = require("../common/constant");
+// new
 const correlation = require("../controllers/yahoofinance/correlation");
 const file_management = require("../controllers/code_development/attempt_1");
 
@@ -34,21 +34,25 @@ const trading_authentication = require("../controllers/authentication/trading_au
 const neural_net = require("../controllers/algotrader/neural_net");
 const algo = require("../controllers/algo/algo");
 
+router.post("/profile-img-upload", algo.profileImgUpload);
+
+router.post("/algo-source-upload", algo.algoSouceUpload);
+
 router.post("/get_correlation", correlation.stock_req);
 router.get("/create_file", file_management.test_create_file);
 
-//options
+// options
 
-//Options Best
-//router.post('/fetch_initial_options_data', options_trader.fetch_initial_options_data);
+// Options Best
+// router.post('/fetch_initial_options_data', options_trader.fetch_initial_options_data)
 
 router.post("/get_rsi_with_slope", rsi.relative_strength_with_slope);
 router.post("/fetch_stock_price", stock_price_data.fetch_stock);
 
-//robinhood
+// robinhood
 router.post("/robinhood_buy_func", robinhood.robinhood_buy_func);
 //
-//interactive_brokers_stocks
+// interactive_brokers_stocks
 router.post(
   "/authenticate_trading",
   trading_authentication.validate_trading_auth
@@ -89,7 +93,7 @@ router.post(
   interactive_brokers_stocks.exit_short_position
 );
 
-//User
+// User
 router.post(
   "/create_user",
   [body("email").isEmail(), body("name").exists(), body("password").exists()],
@@ -97,8 +101,7 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.json({ status: Message.ERROR, message: errors });
-    } else 
-    return user_registration.create_user(req,res);
+    } else return user_registration.create_user(req, res);
   }
 );
 
@@ -118,8 +121,8 @@ router.post(
 
 router.get("/log_out", authentication.log_out);
 
-//admin_dashboard
-//router.get('/fetch_admin_company_services',admin_dashboard_service.fetch_company_and_service)
+// admin_dashboard
+// router.get('/fetch_admin_company_services',admin_dashboard_service.fetch_company_and_service)
 
 router.get("/check_security", function (req, res) {
   console.log(req.url);
@@ -129,7 +132,17 @@ router.get("/check_security", function (req, res) {
 
 router.post("/algos/save", algo.createAlgo);
 router.get("/algos/:algoId", algo.getAlgoDetails);
+router.get("/algos", algo.getAllAlgos);
+router.get("/algoReview/:algoId", algo.getReviewFromAlgo);
+router.put("/algos/:algoId", algo.updateAlgo);
+router.delete("/algos/:algoId", algo.deleteAlgo);
 router.post("/algos/review/save", algo.saveAlgoReview);
+router.delete("/algos/review/:_id", algo.deleteAlgoReview);
+
+router.post("/myPurchases/save", algo.createPurchase);
+router.get("/myPurchases/:userId", algo.getMyPurchase);
+
+router.post("/marketplace/search", algo.searchAlgo);
 
 /***  End  ***/
 

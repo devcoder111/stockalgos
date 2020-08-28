@@ -12,6 +12,8 @@ import MarketPlacePage from './live/MarketPlacePage/MarketPlacePage';
 import ProductPage from './live/ProductPage/ProductPage';
 import MyPurchasesPage from './live/MyPurchasesPage/MyPurchasesPage';
 import LogOut from './live/logout';
+import MyAccountPage from './live/MyAccountPage/MyAccountPage';
+import SellAnAlgoPage from './live/SellAnAlgoPage/SellAnAlgoPage';
 
 
 const LoginRoute = ({ component: Component, ...rest }) => {
@@ -62,6 +64,10 @@ class Router extends Component {
 
   setLogin = (isLoggedIn) =>{
     this.setState({ isLoggedIn })
+    console.log("dd", this.props)
+  }
+  setLogout = (isLoggedIn) =>{
+    this.setState({ isLoggedIn: false })
   }
 
   render(){
@@ -80,10 +86,13 @@ class Router extends Component {
             <PrivateRoute exact {...this.state} path='/marketplace' component={MarketPlacePage} />
             <Route path='/marketplace/:id' component={ProductPage} />
             <Route path='/logout'
-              render={(props) => <LogOut {...props} setLogOut={(value)=>this.setLogin(value)} />} 
+              render={(props) => <LogOut {...props} setLogOut={(value)=>this.setLogout(value)} />} 
              />
             <Route exact path='/my-purcheses' component={MyPurchasesPage} />
             <Route path='/my-purcheses/:id' render={(props) => <ProductPage {...props} isPurchased={true}  />} />
+            <Route path='/my-algos/:id' render={(props) => <ProductPage {...props} isMyAlgo={true}  />} />
+            <Route path='/my-account' component={MyAccountPage} />
+            <Route path='/sell-an-algo' component={SellAnAlgoPage} />
           </Switch>
         </BrowserRouter>
       </App>

@@ -7,9 +7,12 @@ class Select extends Component {
         value: '',
         property: '',
     }
-    onSelect = child => this.setState({ value: child.props.value, property: child.props.children });
+    onSelect = child => {
+        this.setState({ value: child.props.value, property: child.props.children });
+        this.props.onSelect && this.props.onSelect(this.refs.select);
+    };
     render() {
-        const { title, className } = this.props;
+        const { title, className, name } = this.props;
         const { showOptions, value, property } = this.state;
         return (
             <div className={`__select-container ${className}`}>
@@ -21,7 +24,7 @@ class Select extends Component {
                 >
                     <div className='__mr-1'>{title} <span className='__bold'>{property}</span></div>
                     <i className="fas fa-chevron-down"></i>
-                    <input type='hidden' value={value} />
+                    <input type='hidden' value={value} name={name} ref='select' />
                 </button>
                 {this.childs && <div className={`__options-wrapper ${showOptions ? '__show' : ''}`}>
                     <div className='__chevron-up'> </div>

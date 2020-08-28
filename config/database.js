@@ -13,7 +13,14 @@ module.exports = function() {
   const local_url = 'mongodb://localhost/other';
   var dbURL = process.env.db_user ? env_connection_url : local_url;
 
-  mongoose.connect(dbURL);
+  mongoose.connect(dbURL, {
+    useFindAndModify: false,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  }).then(() => {
+    console.log("MongoDB server started at");
+  });
 
   mongoose.connection.on('connected', function() {
     console.log("The connection to the database has been established!");

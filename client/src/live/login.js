@@ -36,7 +36,6 @@ class Login extends React.Component {
     const { username, password } = e.target;
     axios.post('/sign_in', { username: username.value, password: password.value })
       .then((response) => {
-        console.log(this.props)
         this.props.persistUser(response.data.result)
         this.props.setLogin(true)
         this.props.history.push('/marketplace')

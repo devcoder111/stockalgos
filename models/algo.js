@@ -1,11 +1,11 @@
 {
-  /* (2020-08-13) - This is Algo Schema
-  */
+    /* (2020-08-13) - This is Algo Schema
+     */
 }
- 
-'use strict';
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
+'use strict'
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const AlgoSchema = new Schema({
     userId: {
@@ -42,6 +42,6 @@ const AlgoSchema = new Schema({
         type: Date,
         default: Date.now
     }
-});
+})
 
-module.exports = mongoose.model('Algo', AlgoSchema);
+module.exports = mongoose.model('Algo', AlgoSchema)

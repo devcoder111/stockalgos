@@ -41,10 +41,46 @@ a{
 .__input-field-small{
     border: 1px solid $grey !important;
     border-radius: 0.5em;
-    padding: 0.6em;
+
+    padding: 0.4em 0.5em;
+
     min-width: 170px;
     margin: 0;
     width: 100%;
+}
+.__switch{
+    height: 1.8em;
+    width: 3.3em;
+    @extend .__relative;
+    cursor: pointer;
+    border: 1px solid purple;
+    &::before, &::after{
+        position: absolute;
+        content: '';
+        border-radius: 1.8em;
+        transition: 0.2s all;
+        top: 0;
+        left: 0;
+    }
+    &::before{
+        height: 100%;
+        width: 100%;
+        background: $darkgrey;
+    }
+    &::after{
+        background: #fff;
+        width: calc(1.8em - 4px);
+        height: calc(1.8em - 4px);
+        margin: 2px;
+    }
+    &:checked{
+        &::before{
+            background: $green;
+        }
+        &::after{
+            left: calc(100% - 1.8em);
+        }
+    }
 }
 .__input-field{
     border: 1px solid $grey;
@@ -56,6 +92,7 @@ a{
     display: block;
     margin: 1em 0;
     outline: none;
+    width: 100%;
     width: 100%;
     &.no-brdr {
         border:0px; 
@@ -75,7 +112,7 @@ a{
     }
 }
 .__btn{
-    border: 2px solid;
+    border: 2px solid $green;
     outline: none;
     background: $green;
     color: #fff;
@@ -97,9 +134,8 @@ a{
         background: #fff;
     }
     &.__large-btn{
-        padding: 1em 1.2em;
+        padding: 0.9em 1.2em;
         min-width: 10em;
-        border-radius: 0.8em;
     }
 }
 .__green{
@@ -121,7 +157,7 @@ a{
     font-weight: bolder;
 }
 .__h3{
-    font-size: 1.4em;
+    font-size: 1.3em;
 }
 .__h4{
     font-size: 1.2em;
@@ -135,18 +171,31 @@ a{
 .__h2{
     font-size: 1.6em;
 }
+.__big-heading{
+    font-size: 2.2em;
+}
 .__sub-title{
     font-size: 0.9em;
 }
 .__small{
     font-size: 0.9em;
+    line-height: 1.3em;
+}
+.__smaller{
+    font-size: 0.8em;
+    line-height: 1.3em;
 }
 svg{
     width: 1em;
     fill: currentColor;
     min-width: 16px;
 }
-
+.__radius{
+    border-radius: 0.6em;
+}
+.__small-radius{
+    border-radius: 0.3em;
+}
 .__chip{
     border: 1px solid $primary;
     color: $primary;

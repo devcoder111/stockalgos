@@ -15,6 +15,12 @@ const UserSchema = new Schema({
   name: {
     type: String
   },
+  first_name: {
+    type: String
+  },
+  last_name: {
+    type: String
+  },
   short_bio: {
     type: String
   },
