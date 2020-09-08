@@ -30,7 +30,9 @@ const profileImgUpload = multer({
       );
     },
   }),
-  limits: { fileSize: 2000000 }, // In bytes: 2000000 bytes = 2 MB
+  limits: {
+    fileSize: 2000000,
+  }, // In bytes: 2000000 bytes = 2 MB
   fileFilter: function (req, file, cb) {
     checkFileType(file, cb);
   },
@@ -51,7 +53,9 @@ const algoSouceUpload = multer({
       );
     },
   }),
-  limits: { fileSize: 2000000 }, // In bytes: 2000000 bytes = 2 MB
+  limits: {
+    fileSize: 2000000,
+  }, // In bytes: 2000000 bytes = 2 MB
 }).single("sourceCode");
 
 function checkFileType(file, cb) {
@@ -81,40 +85,45 @@ exports.createAlgo = function (req, res) {
     });
   }
 
-  User.findOne({ _id: body.userId }, function (err, user) {
-    if (err) {
-      return res.json({
-        status: 0,
-        message: Message.SERVER_ERROR,
-        status_code: 500,
-      });
-    } else {
-      if (user) {
-        Algo.create(body, function (err, algo) {
-          if (err) {
-            console.log(err);
-            return res.json({
-              status: 0,
-              message: Message.SERVER_ERROR,
-              status_code: 500,
-            });
-          } else {
-            return res.json({
-              status: 1,
-              message: Message.SUCCESS,
-              status_code: 200,
-            });
-          }
-        });
-      } else {
+  User.findOne(
+    {
+      _id: body.userId,
+    },
+    function (err, user) {
+      if (err) {
         return res.json({
           status: 0,
-          message: Message.USER_NOT_EXIST,
-          status_code: 400,
+          message: Message.SERVER_ERROR,
+          status_code: 500,
         });
+      } else {
+        if (user) {
+          Algo.create(body, function (err, algo) {
+            if (err) {
+              console.log(err);
+              return res.json({
+                status: 0,
+                message: Message.SERVER_ERROR,
+                status_code: 500,
+              });
+            } else {
+              return res.json({
+                status: 1,
+                message: Message.SUCCESS,
+                status_code: 200,
+              });
+            }
+          });
+        } else {
+          return res.json({
+            status: 0,
+            message: Message.USER_NOT_EXIST,
+            status_code: 400,
+          });
+        }
       }
     }
-  });
+  );
 };
 
 exports.updateAlgo = function (req, res) {
@@ -129,34 +138,42 @@ exports.updateAlgo = function (req, res) {
     });
   }
 
-  User.findOne({ _id: body.userId }, function (err, user) {
-    if (err) {
-      return res.json({
-        status: 0,
-        message: Message.SERVER_ERROR,
-        status_code: 500,
-      });
-    } else {
-      if (user) {
-        console.log("req44", req);
-        const id = req.params.algoId;
-        console.log("req33", id);
-        Algo.findByIdAndUpdate(id, req.body)
-          .then((data) => {
-            if (!data) {
-              res.status(404).send({
-                message: `Cannot update Algo with id=${id}. Maybe Algo was not found!`,
+  User.findOne(
+    {
+      _id: body.userId,
+    },
+    function (err, user) {
+      if (err) {
+        return res.json({
+          status: 0,
+          message: Message.SERVER_ERROR,
+          status_code: 500,
+        });
+      } else {
+        if (user) {
+          console.log("req44", req);
+          const id = req.params.algoId;
+          console.log("req33", id);
+          Algo.findByIdAndUpdate(id, req.body)
+            .then((data) => {
+              if (!data) {
+                res.status(404).send({
+                  message: `Cannot update Algo with id=${id}. Maybe Algo was not found!`,
+                });
+              } else
+                res.send({
+                  message: "Algo was updated successfully.",
+                });
+            })
+            .catch((err) => {
+              res.status(500).send({
+                message: "Error updating Algo with id=" + id,
               });
-            } else res.send({ message: "Algo was updated successfully." });
-          })
-          .catch((err) => {
-            res.status(500).send({
-              message: "Error updating Algo with id=" + id,
             });
-          });
+        }
       }
     }
-  });
+  );
 };
 
 exports.deleteAlgo = function (req, res) {
@@ -217,63 +234,72 @@ exports.saveAlgoReview = function (req, res) {
     });
   }
 
-  User.findOne({ _id: body.userId }, function (err, user) {
-    if (err) {
-      return res.json({
-        status: 0,
-        message: Message.SERVER_ERROR,
-        status_code: 500,
-      });
-    } else {
-      if (user) {
-        Algo.findOne({ _id: body.algoId }, function (err, algo) {
-          if (err) {
-            return res.json({
-              status: 0,
-              message: Message.SERVER_ERROR,
-              status_code: 500,
-            });
-          } else {
-            if (algo) {
-              AlgoReview.create(body, function (err, algoReview) {
-                if (err) {
-                  return res.json({
-                    status: 0,
-                    message: Message.SERVER_ERROR,
-                    status_code: 500,
+  User.findOne(
+    {
+      _id: body.userId,
+    },
+    function (err, user) {
+      if (err) {
+        return res.json({
+          status: 0,
+          message: Message.SERVER_ERROR,
+          status_code: 500,
+        });
+      } else {
+        if (user) {
+          Algo.findOne(
+            {
+              _id: body.algoId,
+            },
+            function (err, algo) {
+              if (err) {
+                return res.json({
+                  status: 0,
+                  message: Message.SERVER_ERROR,
+                  status_code: 500,
+                });
+              } else {
+                if (algo) {
+                  AlgoReview.create(body, function (err, algoReview) {
+                    if (err) {
+                      return res.json({
+                        status: 0,
+                        message: Message.SERVER_ERROR,
+                        status_code: 500,
+                      });
+                    } else {
+                      return res.json({
+                        status: 1,
+                        message: Message.SUCCESS,
+                        status_code: 200,
+                      });
+                    }
                   });
                 } else {
                   return res.json({
-                    status: 1,
-                    message: Message.SUCCESS,
-                    status_code: 200,
+                    status: 0,
+                    message: "Algo Not Exist",
+                    status_code: 400,
                   });
                 }
-              });
-            } else {
-              return res.json({
-                status: 0,
-                message: "Algo Not Exist",
-                status_code: 400,
-              });
+              }
             }
-          }
-        });
-      } else {
-        return res.json({
-          status: 0,
-          message: Message.USER_NOT_EXIST,
-          status_code: 404,
-        });
+          );
+        } else {
+          return res.json({
+            status: 0,
+            message: Message.USER_NOT_EXIST,
+            status_code: 404,
+          });
+        }
       }
     }
-  });
+  );
 };
 exports.getReviewFromAlgo = function (req, res) {
-  AlgoReview.find({ algoId: req.params.algoId }).exec(function (
-    err,
-    algoReview
-  ) {
+  AlgoReview.find({
+    algoId: req.params.algoId,
+  }).exec(function (err, algoReview) {
     if (err) {
       return res.json({
         status: 0,
@@ -290,6 +316,7 @@ exports.getReviewFromAlgo = function (req, res) {
         }
         totalRating = totalReviewRating / reviewLength;
         if (reviewLength == 0) totalRating = 0;
+        totalRating = round(totalRating, 2);
         return res.json({
           status: 0,
           message: Message.SUCCESS,
@@ -317,10 +344,9 @@ exports.getAllAlgos = function (req, res) {
           var promises = [];
           for (let algo of algos) {
             let promise = new Promise(function (resolve, reject) {
-              AlgoReview.find({ algoId: algo._id }).exec(function (
-                err,
-                algoReview
-              ) {
+              AlgoReview.find({
+                algoId: algo._id,
+              }).exec(function (err, algoReview) {
                 if (err) {
                   return res.json({
                     status: 0,
@@ -337,6 +363,7 @@ exports.getAllAlgos = function (req, res) {
                     }
                     totalRating = totalReviewRating / reviewLength;
                     if (reviewLength == 0) totalRating = 0;
+                    totalRating = round(totalRating, 2);
                     algo._doc.review = totalRating;
                     resolve(totalRating);
                   } else {
@@ -387,9 +414,13 @@ exports.getAlgoDetails = function (req, res) {
     });
   }
 
-  let query = { _id: body.algoId };
+  let query = {
+    _id: body.algoId,
+  };
 
-  Algo.findOne({ _id: body.algoId })
+  Algo.findOne({
+    _id: body.algoId,
+  })
     .populate("userId algoReviewIds")
     .exec(function (err, algo) {
       if (err) {
@@ -400,7 +431,9 @@ exports.getAlgoDetails = function (req, res) {
         });
       } else {
         if (algo) {
-          AlgoReview.find({ algoId: body.algoId })
+          AlgoReview.find({
+            algoId: body.algoId,
+          })
             .populate("userId")
             .exec(function (err, algoReview) {
               if (err) {
@@ -418,7 +451,9 @@ exports.getAlgoDetails = function (req, res) {
                     totalReviewRating += parseFloat(review.rating);
                     let promise = new Promise(function (resolve, reject) {
                       let reviewRecords = {};
-                      User.findOne({ _id: review.userId })
+                      User.findOne({
+                        _id: review.userId,
+                      })
                         .populate("userId")
                         .exec(function (err, user) {
                           if (err) {
@@ -439,12 +474,16 @@ exports.getAlgoDetails = function (req, res) {
                   }
 
                   Promise.all(promises).then(function (response) {
+                    totalReviewRating = round(
+                      totalReviewRating / reviewLength,
+                      2
+                    );
                     return res.json({
                       status: 1,
                       message: Message.SUCCESS,
                       status_code: 200,
                       data: algo,
-                      totalReviewRating: totalReviewRating / reviewLength,
+                      totalReviewRating: totalReviewRating,
                       reviewsDetails: response,
                     });
                   });
@@ -479,7 +518,9 @@ exports.profileImgUpload = function (req, res) {
     console.log("error", error);
     if (error) {
       console.log("errors", error);
-      res.json({ error: error });
+      res.json({
+        error: error,
+      });
     } else {
       // If File not found
       if (req.file === undefined) {
@@ -506,7 +547,9 @@ exports.algoSouceUpload = function (req, res) {
     console.log("error", error);
     if (error) {
       console.log("errors", error);
-      res.json({ error: error });
+      res.json({
+        error: error,
+      });
     } else {
       // If File not found
       if (req.file === undefined) {
@@ -529,45 +572,52 @@ exports.algoSouceUpload = function (req, res) {
 exports.createPurchase = function (req, res) {
   let body = req.body;
 
-  User.findOne({ _id: body.userId }, function (err, user) {
-    if (err) {
-      return res.json({
-        status: 0,
-        message: Message.SERVER_ERROR,
-        status_code: 500,
-      });
-    } else {
-      if (user) {
-        Purchase.create(body, function (err, purchase) {
-          if (err) {
-            console.log(err);
-            return res.json({
-              status: 0,
-              message: Message.SERVER_ERROR,
-              status_code: 500,
-            });
-          } else {
-            return res.json({
-              status: 1,
-              message: Message.SUCCESS,
-              status_code: 200,
-            });
-          }
-        });
-      } else {
+  User.findOne(
+    {
+      _id: body.userId,
+    },
+    function (err, user) {
+      if (err) {
         return res.json({
           status: 0,
-          message: Message.USER_NOT_EXIST,
-          status_code: 400,
+          message: Message.SERVER_ERROR,
+          status_code: 500,
         });
+      } else {
+        if (user) {
+          Purchase.create(body, function (err, purchase) {
+            if (err) {
+              console.log(err);
+              return res.json({
+                status: 0,
+                message: Message.SERVER_ERROR,
+                status_code: 500,
+              });
+            } else {
+              return res.json({
+                status: 1,
+                message: Message.SUCCESS,
+                status_code: 200,
+              });
+            }
+          });
+        } else {
+          return res.json({
+            status: 0,
+            message: Message.USER_NOT_EXIST,
+            status_code: 400,
+          });
+        }
       }
     }
-  });
+  );
 };
 
 exports.getMyPurchase = function (req, res) {
   console.log("1111", req.params.userId);
-  Purchase.find({ userId: req.params.userId })
+  Purchase.find({
+    userId: req.params.userId,
+  })
     .populate("algoId userId")
     .exec(function (err, purchases) {
       if (err) {
@@ -582,10 +632,9 @@ exports.getMyPurchase = function (req, res) {
           var promises = [];
           for (let algo of purchases) {
             let promise = new Promise(function (resolve, reject) {
-              AlgoReview.find({ algoId: algo.algoId }).exec(function (
-                err,
-                algoReview
-              ) {
+              AlgoReview.find({
+                algoId: algo.algoId,
+              }).exec(function (err, algoReview) {
                 if (err) {
                   return res.json({
                     status: 0,
@@ -602,6 +651,7 @@ exports.getMyPurchase = function (req, res) {
                     }
                     totalRating = totalReviewRating / reviewLength;
                     if (reviewLength == 0) totalRating = 0;
+                    totalRating = round(totalRating, 2);
                     algo._doc.review = totalRating;
                     console.log("222", algo);
                     resolve(totalRating);
@@ -635,13 +685,165 @@ exports.getMyPurchase = function (req, res) {
 
 exports.searchAlgo = function (req, res) {
   let body = req.body;
-  Algo.find()
-    .populate({
-      path: "userId",
-      match: {
-        name: { $regex: "group", $options: "i" },
-      },
-    })
+  var tempAlgos = [];
+  if (body.tags.length == 0) {
+    searchWithoutTags(req, res);
+  } else {
+    let promise = new Promise(function (resolve, reject) {
+      Algo.find({
+        stockAlgoName: {
+          $regex: body.search,
+          $options: "i",
+        },
+      }).exec(function (err, algos) {
+        if (algos.length > 0) {
+          // Algo.find({})
+          //   .populate({
+          //     path: "userId",
+          //     match: {
+          //       name: {
+          //         $regex: body.search,
+          //         $options: "i",
+          //       },
+          //     },
+          //   })
+          //   .find({
+          //     stockAlgoName: {
+          //       $regex: body.search,
+          //       $options: "i",
+          //     },
+          //     tags: {
+          //       $all: body.tags,
+          //     },
+          //   })
+          //   .exec(function (err, algos) {
+          //     if (err) {
+          //       return res.json({
+          //         status: 0,
+          //         message: Message.SERVER_ERROR,
+          //         status_code: 500,
+          //       });
+          //     } else {
+          //       resolve(algos);
+          //     }
+          //   });
+
+          Algo.find({
+            $and: [
+              { stockAlgoName: { $regex: body.search, $options: "i" } },
+              { tags: { $all: body.tags } },
+            ],
+          })
+            .populate({
+              path: "userId",
+            })
+            .exec(function (err, algos) {
+              if (err) {
+                return res.json({
+                  status: 0,
+                  message: Message.SERVER_ERROR,
+                  status_code: 500,
+                });
+              } else {
+                resolve(algos);
+              }
+            });
+        } else {
+          Algo.find({
+            tags: {
+              $all: body.tags,
+            },
+          })
+            .populate({
+              path: "userId",
+              match: {
+                name: {
+                  $regex: body.search,
+                  $options: "i",
+                },
+              },
+            })
+            .exec(function (err, algos) {
+              if (err) {
+                return res.json({
+                  status: 0,
+                  message: Message.SERVER_ERROR,
+                  status_code: 500,
+                });
+              } else {
+                resolve(algos);
+              }
+            });
+        }
+      });
+    });
+    promise.then(function (response) {
+      var resAlgos = getTotalReviews(response, res);
+    });
+  }
+};
+
+exports.checkPurchase = function (req, res) {
+  var body = req.body;
+  Purchase.find({
+    $and: [{ userId: body.userId }, { algoId: body.algoId }],
+  }).exec(function (err, purchases) {
+    if (err) {
+      return res.json({
+        status: 0,
+        message: Message.SERVER_ERROR,
+        status_code: 500,
+        purchased: false,
+      });
+    } else {
+      if (purchases.length > 0) {
+        return res.json({
+          message: Message.SUCCESS,
+          purchased: true,
+        });
+      } else {
+        return res.json({
+          message: "No purchased",
+          purchased: false,
+        });
+      }
+    }
+  });
+};
+
+exports.checkMyAlgo = function (req, res) {
+  var body = req.body;
+  Algo.find({
+    $and: [{ userId: body.userId }],
+  }).exec(function (err, algos) {
+    if (err) {
+      return res.json({
+        status: 0,
+        message: Message.SERVER_ERROR,
+        status_code: 500,
+        isMyAlgo: false,
+      });
+    } else {
+      if (algos.length > 0) {
+        return res.json({
+          message: Message.SUCCESS,
+          isMyAlgo: true,
+        });
+      } else {
+        return res.json({
+          message: "No my algo",
+          isMyAlgo: false,
+        });
+      }
+    }
+  });
+};
+
+exports.getMyAlgos = function (req, res) {
+  var userId = req.params.userId;
+
+  Algo.find({ userId: userId })
+    .populate("userId algoReviewIds")
     .exec(function (err, algos) {
       if (err) {
         return res.json({
@@ -650,43 +852,181 @@ exports.searchAlgo = function (req, res) {
           status_code: 500,
         });
       } else {
-        return res.json({
-          status: 1,
-          message: Message.SUCCESS,
-          status_code: 200,
-          data: algos,
-          totalRating: 0,
-        });
+        if (algos) {
+          var algosReview = [];
+          var promises = [];
+          for (let algo of algos) {
+            let promise = new Promise(function (resolve, reject) {
+              AlgoReview.find({
+                algoId: algo._id,
+              }).exec(function (err, algoReview) {
+                if (err) {
+                  return res.json({
+                    status: 0,
+                    message: Message.SERVER_ERROR,
+                    status_code: 500,
+                  });
+                } else {
+                  if (algoReview) {
+                    var totalReviewRating = 0;
+                    var totalRating = 0;
+                    var reviewLength = algoReview.length;
+                    for (let review of algoReview) {
+                      totalReviewRating += parseInt(review.rating);
+                    }
+                    totalRating = totalReviewRating / reviewLength;
+                    if (reviewLength == 0) totalRating = 0;
+                    totalRating = round(totalRating, 2);
+                    algo._doc.review = totalRating;
+                    resolve(totalRating);
+                  } else {
+                    resolve(0);
+                  }
+                }
+              });
+            });
+            promises.push(promise);
+          }
+          Promise.all(promises).then(function (response) {
+            return res.json({
+              status: 1,
+              message: Message.SUCCESS,
+              status_code: 200,
+              data: algos,
+            });
+          });
+        } else {
+          return res.json({
+            status: 1,
+            message: Message.SUCCESS,
+            status_code: 200,
+            data: algos,
+            totalRating: 0,
+          });
+        }
       }
     });
-
-  // Algo.aggregate(
-  //   [
-  //     {
-  //       $lookup: {
-  //         from: "User",
-  //         let: { userId: "$userId" },
-  //         pipeline: [{ $match: { $expr: { $eq: ["$_id", "$userId"] } } }],
-  //         as: "userList",
-  //       },
-  //     },
-  //   ],
-  //   function (err, result) {
-  //     // "tags" is now filtered by condition and "joined"
-  //     if (err) {
-  //       return res.json({
-  //         status: 1,
-  //         message: Message.SERVER_ERROR,
-  //         status_code: 500,
-  //       });
-  //     } else {
-  //       return res.json({
-  //         status: 1,
-  //         message: Message.SUCCESS,
-  //         status_code: 200,
-  //         data: result,
-  //       });
-  //     }
-  //   }
-  // );
 };
+
+function round(value, decimals) {
+  return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
+}
+function getTotalReviews(tAlgos, res) {
+  var algos = [];
+  for (let algo of tAlgos) {
+    if (algo.userId != null) algos.push(algo);
+  }
+  if (algos) {
+    var promises = [];
+    for (let algo of algos) {
+      let promise = new Promise(function (resolve, reject) {
+        AlgoReview.find({
+          algoId: algo._id,
+        }).exec(function (err, algoReview) {
+          if (err) {
+            return res.json({
+              status: 0,
+              message: Message.SERVER_ERROR,
+              status_code: 500,
+            });
+          } else {
+            if (algoReview) {
+              var totalReviewRating = 0;
+              var totalRating = 0;
+              var reviewLength = algoReview.length;
+              for (let review of algoReview) {
+                totalReviewRating += parseInt(review.rating);
+              }
+              totalRating = totalReviewRating / reviewLength;
+              if (reviewLength == 0) totalRating = 0;
+              totalRating = round(totalRating, 2);
+              algo._doc.review = totalRating;
+              resolve(totalRating);
+            } else {
+              resolve(0);
+            }
+          }
+        });
+      });
+      promises.push(promise);
+    }
+    Promise.all(promises).then(function (response) {
+      return res.json({
+        status: 1,
+        message: Message.SUCCESS,
+        status_code: 200,
+        data: algos,
+      });
+    });
+  } else {
+    return res.json({
+      status: 1,
+      message: Message.SUCCESS,
+      status_code: 200,
+      data: algos,
+    });
+  }
+}
+
+function searchWithoutTags(req, res) {
+  let body = req.body;
+  let promise = new Promise(function (resolve, reject) {
+    Algo.find({
+      stockAlgoName: {
+        $regex: body.search,
+        $options: "i",
+      },
+    }).exec(function (err, algos) {
+      if (algos.length > 0) {
+        Algo.find({
+          stockAlgoName: { $regex: body.search, $options: "i" },
+        })
+          .populate({
+            path: "userId",
+          })
+          .exec(function (err, algos) {
+            if (err) {
+              return res.json({
+                status: 0,
+                message: Message.SERVER_ERROR,
+                status_code: 500,
+              });
+            } else {
+              resolve(algos);
+            }
+          });
+      } else {
+        Algo.find()
+          .populate({
+            path: "userId",
+            match: {
+              name: {
+                $regex: body.search,
+                $options: "i",
+              },
+            },
+          })
+          .exec(function (err, algos) {
+            if (err) {
+              return res.json({
+                status: 0,
+                message: Message.SERVER_ERROR,
+                status_code: 500,
+              });
+            } else {
+              resolve(algos);
+              // return res.json({
+              //   status: 0,
+              //   message: Message.SUCCESS,
+              //   status_code: 200,
+              //   data: algos,
+              // });
+            }
+          });
+      }
+    });
+  });
+  promise.then(function (response) {
+    getTotalReviews(response, res);
+  });
+}

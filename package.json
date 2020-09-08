@@ -60,6 +60,7 @@
         "request": "^2.88.2",
         "save": "^2.4.0",
         "serve-favicon": "^2.4.5",
+        "stripe": "^8.92.0",
         "uuid": "^8.3.0",
         "xlsx-chart": "^0.3.8",
         "yahoo-finance": "^0.3.6",

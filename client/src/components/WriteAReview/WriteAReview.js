@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
 import PopUp from "../../ui/PopUp/PopUp";
 import RatingStars from "../RatingStars/RatingStars";
+import { withRouter } from "react-router-dom";
+
 import axios from "axios";
 
 class WriteAReview extends Component {
@@ -25,6 +27,9 @@ class WriteAReview extends Component {
       console.log("success", response);
       alert("Added review");
       this.setState({ isPopUp: false });
+      this.props.onClick();
+      // this.props.history.push("/my-purcheses");
+      // this.props.history.go(0);
     });
   };
   render() {
@@ -97,4 +102,4 @@ class WriteAReview extends Component {
   }
 }
 
-export default WriteAReview;
+export default withRouter(WriteAReview);

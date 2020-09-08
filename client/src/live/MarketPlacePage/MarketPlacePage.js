@@ -15,7 +15,7 @@ class SelectTag extends Component {
       { tag: "#future", active: false },
       { tag: "#options", active: false },
       { tag: "#ETF", active: false },
-      { tag: "#signal", active: false },
+      { tag: "#screener", active: false },
       { tag: "#signal", active: false },
     ],
   };
@@ -68,17 +68,21 @@ class MarketPlacePage extends Component {
       this.setState({ algos: response.data.data });
     });
   }
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     const { search, tags } = e.target;
     const data = {
       search: search.value,
       tags: tags.values,
     };
-    console.log("aaa", data);
-    axios.post("/marketplace/search", data).then((response) => {
-      console.log("success", response);
-    });
+    if (data.search == "" && data.tags.length == 0) {
+      this.fetchAllAlgos();
+    } else {
+      axios.post("/marketplace/search", data).then((response) => {
+        console.log("success", response);
+        this.setState({ algos: response.data.data });
+      });
+    }
   };
   componentDidMount() {
     this.fetchAllAlgos();

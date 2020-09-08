@@ -33,6 +33,7 @@ const trading_authentication = require("../controllers/authentication/trading_au
 
 const neural_net = require("../controllers/algotrader/neural_net");
 const algo = require("../controllers/algo/algo");
+const payment = require("../controllers/payment/payment");
 
 router.post("/profile-img-upload", algo.profileImgUpload);
 
@@ -132,6 +133,9 @@ router.get("/check_security", function (req, res) {
 
 router.post("/algos/save", algo.createAlgo);
 router.get("/algos/:algoId", algo.getAlgoDetails);
+router.get("/myAlgos/:userId", algo.getMyAlgos);
+router.post("/checkPurchase/", algo.checkPurchase);
+router.post("/checkMyAlgo/", algo.checkMyAlgo);
 router.get("/algos", algo.getAllAlgos);
 router.get("/algoReview/:algoId", algo.getReviewFromAlgo);
 router.put("/algos/:algoId", algo.updateAlgo);
@@ -145,5 +149,6 @@ router.get("/myPurchases/:userId", algo.getMyPurchase);
 router.post("/marketplace/search", algo.searchAlgo);
 
 /***  End  ***/
+router.post("/create-payment-intent", payment.createPayment);
 
 module.exports = router;
